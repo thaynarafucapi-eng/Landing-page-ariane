@@ -1,0 +1,86 @@
+---
+import { Image } from 'astro:assets';
+import ServiceCard from './ServiceCard.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
+import { services } from '../config/site';
+import ipdLogo from '../assets/ipd/ipd-logo.png';
+import ipdPersonagens from '../assets/ipd/ipd-personagens.png';
+
+const get = (id: string) => services.find((s) => s.id === id)!;
+const individual = get('terapia-ocupacional-individual');
+const avaliacao = get('avaliacao');
+const ipd = get('ipd');
+const exploradores = get('pequenos-exploradores');
+const orientacao = get('orientacao-parental');
+---
+
+<section id="atendimentos" class="section services" aria-labelledby="services-title">
+  <div class="container">
+    <header class="section-head">
+      <p class="eyebrow">Atendimentos</p>
+      <h2 id="services-title">Terapia Ocupacional para crianças, em diferentes formatos.</h2>
+      <p class="section-head__lead">
+        Cada formato atende a uma necessidade. Se você não sabe por onde começar, tudo bem: no primeiro
+        contato, a demanda é compreendida e a família é orientada para a modalidade mais adequada.
+      </p>
+    </header>
+
+    <div class="services__pair">
+      <ServiceCard service={avaliacao} icon="clipboard" />
+      <ServiceCard service={individual} icon="heart" />
+    </div>
+    <p class="services__diff">
+      <strong>Avaliação ou acompanhamento?</strong> A avaliação é um processo para compreender a criança e suas
+      demandas. O acompanhamento é a intervenção terapêutica contínua, com objetivos definidos para cada criança.
+    </p>
+
+    <h3 class="services__subhead">Grupos e programas</h3>
+
+    <article id={ipd.id} class="ipd" aria-labelledby={`${ipd.id}-title`}>
+      <div class="ipd__media">
+        <Image
+          src={ipdPersonagens}
+          alt="Personagens do programa IPD: tartaruga, raposa, elefante, coelho, coruja e outros animais ilustrados."
+          widths={[400, 640, 900]}
+          sizes="(min-width: 960px) 42vw, 92vw"
+          loading="lazy"
+        />
+      </div>
+      <div class="ipd__body">
+        <div class="service__top">
+          <Image src={ipdLogo} alt="IPD — Inteligente, Porém Disperso" width={260} densities={[1, 2]} class="ipd__logo" />
+          <span class="badge badge--open">{ipd.status}</span>
+        </div>
+        <h4 id={`${ipd.id}-title`} class="service__title">{ipd.name}</h4>
+        <p class="service__summary">{ipd.summary}</p>
+        <p class="service__desc">{ipd.description}</p>
+        <ul class="chips" aria-label="Habilidades trabalhadas">
+          {ipd.skills.map((skill) => <li>{skill}</li>)}
+        </ul>
+        <dl class="service__meta">
+          <div>
+            <dt>Como começa</dt>
+            <dd>{ipd.entry}</dd>
+          </div>
+          <div>
+            <dt>Faixa etária e turmas</dt>
+            <dd>Consulte pelo WhatsApp</dd>
+          </div>
+        </dl>
+        <WhatsAppButton
+          label={ipd.cta!.label}
+          message={ipd.cta!.message}
+          service={ipd.trackingKey}
+          placement="servico-ipd"
+          class="service__cta"
+        />
+        <p class="ipd__credit">IPD é um programa com identidade e autoria próprias. Marca e personagens pertencem aos seus titulares.</p>
+      </div>
+    </article>
+
+    <div class="services__pair">
+      <ServiceCard service={exploradores} icon="blocks" tone="mint" headingLevel="h4" />
+      <ServiceCard service={orientacao} icon="message" tone="muted" headingLevel="h4" />
+    </div>
+  </div>
+</section>

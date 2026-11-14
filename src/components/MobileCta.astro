@@ -1,0 +1,47 @@
+---
+import { whatsappUrl } from '../config/site';
+import Icon from './Icon.astro';
+---
+
+<div class="mobile-cta" data-mobile-cta aria-hidden="true">
+  <a
+    class="btn btn--primary mobile-cta__btn"
+    href={whatsappUrl()}
+    target="_blank"
+    rel="noopener"
+    tabindex="-1"
+    data-track="whatsapp"
+    data-service="geral"
+    data-placement="barra-fixa-mobile"
+  >
+    <Icon name="whatsapp" size={20} />
+    <span>Conversar pelo WhatsApp</span>
+  </a>
+</div>
+
+<script>
+  // Aparece depois da primeira dobra e some perto do CTA final/rodapé,
+  // para nunca encobrir botões equivalentes.
+  const bar = document.querySelector<HTMLElement>('[data-mobile-cta]');
+  const hero = document.getElementById('inicio');
+  const ends = [document.getElementById('contato'), document.querySelector('.site-footer')].filter(
+    (el): el is HTMLElement => el !== null,
+  );
+  if (bar && hero && 'IntersectionObserver' in window) {
+    const link = bar.querySelector('a');
+    let heroVisible = true;
+    const visibleEnds = new Set<Element>();
+    const update = () => {
+      const show = !heroVisible && visibleEnds.size === 0;
+      bar.classList.toggle('is-visible', show);
+      bar.setAttribute('aria-hidden', String(!show));
+      link?.setAttribute('tabindex', show ? '0' : '-1');
+    };
+    new IntersectionObserver(([e]) => { heroVisible = e.isIntersecting; update(); }).observe(hero);
+    const endObserver = new IntersectionObserver((entries) => {
+      entries.forEach((e) => (e.isIntersecting ? visibleEnds.add(e.target) : visibleEnds.delete(e.target)));
+      update();
+    });
+    ends.forEach((el) => endObserver.observe(el));
+  }
+</script>

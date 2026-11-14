@@ -1,0 +1,19 @@
+---
+/**
+ * Banner de consentimento. Só é gerado quando há algum ID de medição
+ * configurado em src/config/tracking.ts. Nenhuma tag externa é carregada
+ * antes do clique em "Aceitar".
+ */
+---
+
+<div id="consent-banner" class="consent" role="region" aria-label="Preferências de cookies" hidden>
+  <p>
+    Usamos cookies de medição (Google) para entender como as pessoas chegam até esta página e melhorar
+    a comunicação. Nenhum dado de saúde é coletado. Saiba mais na
+    <a href="/politica-de-privacidade/">Política de Privacidade</a>.
+  </p>
+  <div class="consent__actions">
+    <button type="button" class="btn btn--ghost" data-consent="reject">Recusar</button>
+    <button type="button" class="btn btn--primary" data-consent="accept">Aceitar</button>
+  </div>
+</div>

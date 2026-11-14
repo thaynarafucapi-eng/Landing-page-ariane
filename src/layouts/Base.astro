@@ -1,0 +1,123 @@
+---
+import '@fontsource-variable/albert-sans';
+import '../styles/global.css';
+import { seo, professional, location, social, contact } from '../config/site';
+import { activeTracking, hasThirdPartyTracking } from '../config/tracking';
+import ConsentBanner from '../components/ConsentBanner.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Caminho canônico relativo (ex.: '/politica-de-privacidade/'). */
+  path?: string;
+  noindex?: boolean;
+  /** Dados estruturados (JSON-LD) apenas na página principal. */
+  structuredData?: boolean;
+}
+
+const {
+  title = seo.title,
+  description = seo.description,
+  path = '/',
+  noindex = false,
+  structuredData = false,
+} = Astro.props;
+
+const site = Astro.site ?? new URL(seo.productionUrl);
+const canonical = new URL(path, site).href;
+const ogImage = new URL(seo.ogImage, site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${site.origin}/#website`,
+      url: `${site.origin}/`,
+      name: `${professional.name} — ${professional.profession}`,
+      inLanguage: 'pt-BR',
+    },
+    {
+      '@type': 'Person',
+      '@id': `${site.origin}/#ariane`,
+      name: professional.name,
+      jobTitle: professional.profession,
+      url: `${site.origin}/`,
+      sameAs: [social.instagram.url].filter(Boolean),
+      knowsAbout: ['Terapia Ocupacional', 'Desenvolvimento infantil', 'Funções executivas', 'Autonomia infantil'],
+      workLocation: {
+        '@type': 'Place',
+        name: location.clinicName,
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: location.addressLine,
+          addressLocality: location.city,
+          addressRegion: location.state,
+          addressCountry: location.country,
+        },
+        hasMap: location.mapsUrl,
+      },
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'atendimento',
+        telephone: `+${contact.whatsappNumber}`,
+        availableLanguage: 'Portuguese',
+      },
+    },
+  ],
+};
+
+const trackingConfig = JSON.stringify(activeTracking);
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content={seo.themeColor} />
+    <meta name="format-detection" content="telephone=no" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap.xml" />
+
+    <!-- Open Graph / redes sociais -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={seo.locale} />
+    <meta property="og:site_name" content={`${professional.name} — ${professional.profession}`} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${professional.name} — ${professional.profession}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {structuredData && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+
+    <!-- Configuração de medição (vazia por padrão; ver src/config/tracking.ts) -->
+    <script is:inline define:vars={{ trackingConfig }}>
+      window.__TRACKING__ = JSON.parse(trackingConfig);
+      window.dataLayer = window.dataLayer || [];
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <slot />
+    {hasThirdPartyTracking && <ConsentBanner />}
+    <script>
+      import '../scripts/analytics';
+      import '../scripts/reveal';
+    </script>
+  </body>
+</html>

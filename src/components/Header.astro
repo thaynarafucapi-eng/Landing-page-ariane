@@ -1,0 +1,70 @@
+---
+import WhatsAppButton from './WhatsAppButton.astro';
+import Icon from './Icon.astro';
+import { professional } from '../config/site';
+
+const nav = [
+  { href: '#atendimentos', label: 'Atendimentos' },
+  { href: '#como-funciona', label: 'Como funciona' },
+  { href: '#sobre', label: 'Sobre' },
+  { href: '#perguntas-frequentes', label: 'Dúvidas' },
+  { href: '#localizacao', label: 'Localização' },
+];
+---
+
+<header class="site-header" data-header>
+  <div class="container site-header__inner">
+    <a href="#inicio" class="site-header__logo" aria-label={`${professional.name} — ${professional.profession}, voltar ao início`}>
+      <img src="/marca/logo-ariane-carvalho.svg" alt="" width="200" height="85" />
+    </a>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      data-nav-toggle
+    >
+      <Icon name="menu" class="nav-toggle__open" />
+      <Icon name="close" class="nav-toggle__close" />
+      <span class="sr-only">Menu</span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Principal" data-nav>
+      <ul>
+        {nav.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+      <WhatsAppButton label="WhatsApp" placement="cabecalho" class="site-nav__cta" srContext="Conversar com Ariane Carvalho" />
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+  const nav = document.querySelector<HTMLElement>('[data-nav]');
+
+  function setOpen(open: boolean) {
+    if (!toggle || !header) return;
+    toggle.setAttribute('aria-expanded', String(open));
+    header.classList.toggle('is-open', open);
+    document.documentElement.classList.toggle('nav-locked', open);
+  }
+
+  toggle?.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && header?.classList.contains('is-open')) {
+      setOpen(false);
+      toggle?.focus();
+    }
+  });
+  window.matchMedia('(min-width: 960px)').addEventListener('change', (e) => e.matches && setOpen(false));
+
+  // Sombra sutil ao rolar
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

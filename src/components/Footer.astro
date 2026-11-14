@@ -1,0 +1,71 @@
+---
+import Icon from './Icon.astro';
+import { professional, location, contact, social, business, whatsappUrl } from '../config/site';
+import { hasThirdPartyTracking } from '../config/tracking';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <img src="/marca/logo-ariane-carvalho-branca.svg" alt={`${professional.name} — Terapia Ocupacional`} width="220" height="93" loading="lazy" />
+      <p>
+        {professional.name} — {professional.profession}<br />
+        {professional.registry}
+      </p>
+    </div>
+
+    <div>
+      <h2 class="site-footer__title">Atendimento</h2>
+      <p>
+        {location.clinicName}<br />
+        {location.addressLine}<br />
+        {location.city}/{location.state}
+      </p>
+      <a href={location.mapsUrl} target="_blank" rel="noopener" data-track="map" data-placement="rodape" class="site-footer__link">
+        <Icon name="pin" size={18} /> Ver no Google Maps<span class="sr-only"> (abre em nova aba)</span>
+      </a>
+    </div>
+
+    <div>
+      <h2 class="site-footer__title">Contato</h2>
+      <ul role="list" class="site-footer__links">
+        <li>
+          <a href={whatsappUrl()} target="_blank" rel="noopener" data-track="whatsapp" data-service="geral" data-placement="rodape">
+            <Icon name="whatsapp" size={18} /> {contact.whatsappDisplay}<span class="sr-only"> (WhatsApp, abre em nova aba)</span>
+          </a>
+        </li>
+        {social.instagram.url && (
+          <li>
+            <a href={social.instagram.url} target="_blank" rel="noopener me">
+              <Icon name="instagram" size={18} /> {social.instagram.handle}<span class="sr-only"> (Instagram, abre em nova aba)</span>
+            </a>
+          </li>
+        )}
+        {social.facebook && (
+          <li>
+            <a href={social.facebook} target="_blank" rel="noopener">Facebook</a>
+          </li>
+        )}
+        {contact.email && (
+          <li>
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          </li>
+        )}
+      </ul>
+    </div>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <p>
+      © {year} {professional.name}. Todos os direitos reservados.
+      {business.legalName && <> · {business.legalName}</>}
+      {business.cnpj && <> · CNPJ {business.cnpj}</>}
+    </p>
+    <p class="site-footer__legal">
+      <a href="/politica-de-privacidade/">Política de Privacidade</a>
+      {hasThirdPartyTracking && <a href="#" data-open-consent>Preferências de cookies</a>}
+    </p>
+  </div>
+</footer>

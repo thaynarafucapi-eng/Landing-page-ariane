@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import Footer from '../components/Footer.astro';
+import { professional, contact, whatsappUrl, seo } from '../config/site';
+import { hasThirdPartyTracking } from '../config/tracking';
+
+/** Atualize ao alterar o conteúdo desta política. */
+const updatedAt = '14 de novembro de 2026';
+---
+
+<Base
+  title={`Política de Privacidade | ${professional.name}`}
+  description={`Como a página de ${professional.name}, ${professional.profession}, trata as informações de quem a visita.`}
+  path="/politica-de-privacidade/"
+>
+  <header class="legal-header">
+    <div class="container">
+      <a href="/" class="site-header__logo" aria-label="Voltar para a página inicial">
+        <img src="/marca/logo-ariane-carvalho.svg" alt="" width="200" height="85" />
+      </a>
+    </div>
+  </header>
+
+  <main id="conteudo" class="legal container">
+    <h1>Política de Privacidade</h1>
+    <p class="legal__updated">Última atualização: {updatedAt}</p>
+
+    <p>
+      Esta política explica como a página de {professional.name}, {professional.profession} ({professional.registry}),
+      disponível em {seo.productionUrl.replace('https://', '')}, trata as informações de quem a visita.
+    </p>
+
+    <h2>1. Esta página não coleta dados de saúde</h2>
+    <p>
+      A página tem caráter informativo. Ela não possui formulários, cadastro ou área de login e não solicita
+      informações pessoais, clínicas ou de saúde sobre você ou sobre a criança.
+    </p>
+
+    <h2>2. Contato pelo WhatsApp</h2>
+    <p>
+      Os botões de contato abrem o WhatsApp, serviço de terceiros (WhatsApp/Meta), com uma mensagem inicial
+      pré-preenchida que identifica apenas o atendimento de interesse. A partir desse momento, a conversa é regida
+      também pelos termos e pela política de privacidade do WhatsApp. Recomendamos não enviar documentos ou
+      informações detalhadas de saúde no primeiro contato; elas serão solicitadas, quando necessárias, no momento
+      adequado do atendimento.
+    </p>
+
+    <h2>3. Mapa e links externos</h2>
+    <p>
+      O botão “Como chegar” abre o Google Maps. O mapa incorporado só é carregado se você clicar em “Ver mapa aqui”;
+      a partir desse clique, o Google pode coletar dados conforme a política dele. Links para o Instagram seguem as
+      regras daquela plataforma.
+    </p>
+
+    <h2>4. Hospedagem</h2>
+    <p>
+      A página é hospedada pela Netlify, que pode registrar dados técnicos de acesso (como endereço IP, navegador e
+      data/hora) para fins de segurança e funcionamento do serviço, conforme a política de privacidade da Netlify.
+    </p>
+
+    <h2>5. Cookies e medição de audiência</h2>
+    {
+      hasThirdPartyTracking ? (
+        <p>
+          Utilizamos ferramentas de medição do Google (Google Analytics, Google Tag Manager e/ou Google Ads) para
+          entender como as pessoas chegam até a página e quais atendimentos despertam interesse — por exemplo, a
+          contagem de cliques nos botões de WhatsApp. Essas ferramentas só são carregadas após a sua autorização no
+          aviso de cookies, e você pode alterar sua escolha a qualquer momento pelo link “Preferências de cookies”,
+          no rodapé. Nenhuma informação de saúde é enviada a essas ferramentas.
+        </p>
+      ) : (
+        <p>
+          No momento, esta página não utiliza cookies de publicidade nem ferramentas de medição de terceiros. Caso
+          isso mude, esta política será atualizada e um aviso solicitará sua autorização antes de qualquer
+          ativação.
+        </p>
+      )
+    }
+    <p>
+      O navegador pode guardar localmente, apenas durante a visita, a origem da campanha que trouxe você até aqui
+      (parâmetros de URL como “utm_source”). Essa informação não identifica você.
+    </p>
+
+    <h2>6. Seus direitos</h2>
+    <p>
+      Você pode solicitar informações sobre o tratamento de dados pessoais relacionados ao seu contato, bem como
+      correção ou exclusão, nos termos da legislação aplicável, pelo WhatsApp
+      <a href={whatsappUrl('Olá! Tenho uma dúvida sobre a Política de Privacidade do site.')} target="_blank" rel="noopener">{contact.whatsappDisplay}</a>{contact.email && <> ou pelo e-mail <a href={`mailto:${contact.email}`}>{contact.email}</a></>}.
+    </p>
+
+    <h2>7. Alterações</h2>
+    <p>Esta política pode ser atualizada sempre que as funcionalidades da página mudarem. A data no topo indica a versão vigente.</p>
+
+    <p><a href="/" class="link-arrow">← Voltar para a página inicial</a></p>
+  </main>
+  <Footer />
+</Base>

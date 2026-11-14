@@ -1,0 +1,71 @@
+---
+import WhatsAppButton from './WhatsAppButton.astro';
+import Icon from './Icon.astro';
+import type { Service } from '../config/site';
+
+interface Props {
+  service: Service;
+  icon: 'clipboard' | 'heart' | 'users' | 'message' | 'blocks';
+  tone?: 'default' | 'mint' | 'muted';
+  headingLevel?: 'h3' | 'h4';
+}
+
+const { service: s, icon, tone = 'default', headingLevel: H = 'h3' } = Astro.props;
+const open = s.cta !== null;
+---
+
+<article id={s.id} class:list={['service', `service--${tone}`]} aria-labelledby={`${s.id}-title`}>
+  <div class="service__top">
+    <span class="service__icon"><Icon name={icon} size={24} /></span>
+    <span class:list={['badge', open ? 'badge--open' : 'badge--closed']}>{s.status}</span>
+  </div>
+
+  <H id={`${s.id}-title`} class="service__title">{s.name}</H>
+  <p class="service__summary">{s.summary}</p>
+  <p class="service__desc">{s.description}</p>
+
+  {
+    s.skills.length > 0 && (
+      <ul class="chips" aria-label="Necessidades e habilidades trabalhadas">
+        {s.skills.map((skill) => <li>{skill}</li>)}
+      </ul>
+    )
+  }
+
+  <dl class="service__meta">
+    {
+      s.ageRange && (
+        <div>
+          <dt>Faixa etária</dt>
+          <dd>{s.ageRange}</dd>
+        </div>
+      )
+    }
+    <div>
+      <dt>Como começa</dt>
+      <dd>{s.entry}</dd>
+    </div>
+  </dl>
+
+  {
+    s.cta ? (
+      <WhatsAppButton
+        label={s.cta.label}
+        message={s.cta.message}
+        service={s.trackingKey}
+        placement={`servico-${s.id}`}
+        class="service__cta"
+      />
+    ) : (
+      s.note && (
+        <p class="service__note">
+          <Icon name="check" size={18} />
+          <span>
+            {s.note}{' '}
+            <a href="#avaliacao">Avaliação</a> · <a href="#terapia-ocupacional-individual">Acompanhamento individual</a>
+          </span>
+        </p>
+      )
+    )
+  }
+</article>

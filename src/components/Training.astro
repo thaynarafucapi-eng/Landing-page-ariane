@@ -1,0 +1,61 @@
+---
+import Photo from './Photo.astro';
+import Icon from './Icon.astro';
+import { professional, scientificEvents } from '../config/site';
+import { photoState } from '../lib/photos';
+
+const hasMedia = photoState('training') !== 'none';
+---
+
+<section id="formacao" class="section training" aria-labelledby="training-title">
+  <div class:list={['container', 'training__grid', !hasMedia && 'training__grid--solo']}>
+    <div>
+      <header class="section-head section-head--left">
+        <p class="eyebrow">Formação e atualização científica</p>
+        <h2 id="training-title">Conhecimento técnico a serviço de cada criança.</h2>
+        <p class="section-head__lead">
+          A prática clínica se apoia em formação sólida e em atualização contínua, para que as decisões terapêuticas
+          acompanhem o conhecimento científico.
+        </p>
+      </header>
+
+      <ul class="training__list" role="list">
+        {professional.education.map((e) => (
+          <li>
+            <Icon name="book" size={20} />
+            <span>{e.title}{e.detail && <small>{e.detail}</small>}</span>
+          </li>
+        ))}
+      </ul>
+
+      {
+        scientificEvents.length > 0 && (
+          <>
+            <h3 class="training__events-title">Congressos e eventos científicos</h3>
+            <ul class="training__events" role="list">
+              {scientificEvents.map((ev) => (
+                <li>
+                  <strong>{ev.name}</strong>
+                  {(ev.year || ev.place) && <span>{[ev.year, ev.place].filter(Boolean).join(' · ')}</span>}
+                </li>
+              ))}
+            </ul>
+          </>
+        )
+      }
+
+      <p class="training__areas">
+        <span>Áreas de atuação:</span>
+        {professional.focusAreas.join(' · ')}
+      </p>
+    </div>
+
+    {
+      hasMedia && (
+        <div class="training__media">
+          <Photo photo="training" sizes="(min-width: 960px) 40vw, 90vw" />
+        </div>
+      )
+    }
+  </div>
+</section>
