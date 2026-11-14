@@ -1,0 +1,43 @@
+---
+import { whatsappUrl } from '../config/site';
+import Icon from './Icon.astro';
+
+interface Props {
+  label: string;
+  message?: string;
+  /** Chave do serviço para analytics ('geral' para botões genéricos). */
+  service?: string;
+  /** Onde o botão está (hero, servicos, cta-final...). */
+  placement: string;
+  variant?: 'primary' | 'gold' | 'ghost' | 'ghost-light';
+  size?: 'md' | 'lg';
+  class?: string;
+  /** Texto adicional apenas para leitores de tela. */
+  srContext?: string;
+}
+
+const {
+  label,
+  message,
+  service = 'geral',
+  placement,
+  variant = 'primary',
+  size = 'md',
+  class: extra = '',
+  srContext,
+} = Astro.props;
+---
+
+<a
+  class:list={['btn', `btn--${variant}`, size === 'lg' && 'btn--lg', extra]}
+  href={whatsappUrl(message)}
+  target="_blank"
+  rel="noopener"
+  data-track="whatsapp"
+  data-service={service}
+  data-placement={placement}
+>
+  <Icon name="whatsapp" size={20} />
+  <span>{label}</span>
+  <span class="sr-only">{srContext ? ` — ${srContext}` : ''} (abre o WhatsApp em uma nova aba)</span>
+</a>

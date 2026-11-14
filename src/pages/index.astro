@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Families from '../components/Families.astro';
+import Approach from '../components/Approach.astro';
+import Services from '../components/Services.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import About from '../components/About.astro';
+import Training from '../components/Training.astro';
+import Structure from '../components/Structure.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Faq from '../components/Faq.astro';
+import Location from '../components/Location.astro';
+import FinalCta from '../components/FinalCta.astro';
+import Footer from '../components/Footer.astro';
+import MobileCta from '../components/MobileCta.astro';
+---
+
+<Base structuredData>
+  <Header />
+  <main id="conteudo">
+    <Hero />
+    <Families />
+    <Approach />
+    <Services />
+    <HowItWorks />
+    <About />
+    <Training />
+    <Structure />
+    <Testimonials />
+    <Faq />
+    <Location />
+    <FinalCta />
+  </main>
+  <Footer />
+  <MobileCta />
+</Base>

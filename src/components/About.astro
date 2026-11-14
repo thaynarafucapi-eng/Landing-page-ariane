@@ -1,0 +1,48 @@
+---
+import Photo from './Photo.astro';
+import Icon from './Icon.astro';
+import { professional } from '../config/site';
+import { photoState } from '../lib/photos';
+
+const hasMedia = photoState('about') !== 'none';
+---
+
+<section id="sobre" class="section about" aria-labelledby="about-title">
+  <div class:list={['container', 'about__grid', !hasMedia && 'about__grid--solo']}>
+    {
+      hasMedia && (
+        <div class="about__media">
+          <Photo photo="about" sizes="(min-width: 960px) 38vw, 90vw" />
+        </div>
+      )
+    }
+
+    <div class="about__content">
+      <p class="eyebrow">Conheça</p>
+      <h2 id="about-title">{professional.name}</h2>
+      <p class="about__role">{professional.profession} · {professional.registry}</p>
+
+      <p>
+        Ariane é terapeuta ocupacional e atua no desenvolvimento infantil há {professional.yearsOfPractice} anos. Seu
+        trabalho se dedica a crianças com dificuldades relacionadas à autonomia, às funções executivas, à
+        autorregulação, às habilidades sociais e à participação nas atividades do dia a dia.
+      </p>
+      <p>
+        Sua prática parte de uma convicção: compreender profundamente antes de intervir. Cada processo começa por
+        conhecer a criança além do diagnóstico — suas potencialidades, suas dificuldades funcionais, o contexto
+        familiar e o ambiente em que vive — para então definir objetivos terapêuticos que façam sentido na vida
+        real.
+      </p>
+      <p>
+        A família faz parte desse caminho. Orientar, explicar e construir estratégias junto aos responsáveis é o que
+        permite que o desenvolvimento conquistado em terapia continue em casa e na escola.
+      </p>
+    </div>
+
+    <ul class="credentials" role="list" aria-label="Dados profissionais">
+      <li><Icon name="award" size={20} /><span><strong>{professional.registry}</strong><br />Registro profissional</span></li>
+      <li><Icon name="heart" size={20} /><span><strong>{professional.yearsOfPractice} anos</strong><br />de atuação no desenvolvimento infantil</span></li>
+      <li><Icon name="book" size={20} /><span><strong>Formação</strong><br /><a href="#formacao">Graduação, pós-graduação e formação complementar</a></span></li>
+    </ul>
+  </div>
+</section>

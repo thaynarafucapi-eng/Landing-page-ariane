@@ -1,0 +1,65 @@
+---
+import Icon from './Icon.astro';
+
+const situations = [
+  {
+    icon: 'shirt',
+    title: 'Autocuidado',
+    text: 'Vestir-se, alimentar-se ou cuidar da higiene ainda exige muito esforço — da criança e da família.',
+  },
+  {
+    icon: 'hand',
+    title: 'Dependência no dia a dia',
+    text: 'A criança ainda precisa de ajuda em atividades que você percebe como esperadas para a idade dela.',
+  },
+  {
+    icon: 'list',
+    title: 'Organizar e concluir',
+    text: 'Começar, manter o foco e terminar tarefas — da lição de casa à arrumação — costuma ser um desafio.',
+  },
+  {
+    icon: 'shuffle',
+    title: 'Mudanças de rotina',
+    text: 'Transições e imprevistos geram desorganização, irritação ou dificuldade de se adaptar.',
+  },
+  {
+    icon: 'users',
+    title: 'Interação e convivência',
+    text: 'Participar de grupos, esperar a vez, dividir e brincar com outras crianças ainda é difícil.',
+  },
+  {
+    icon: 'blocks',
+    title: 'Brincar e participar',
+    text: 'A criança tem dificuldade para se envolver em brincadeiras e atividades do cotidiano.',
+  },
+] as const;
+---
+
+<section id="para-familias" class="section families" aria-labelledby="families-title">
+  <div class="container">
+    <header class="section-head">
+      <p class="eyebrow">Para as famílias</p>
+      <h2 id="families-title">Talvez você reconheça algumas destas situações no dia a dia.</h2>
+      <p class="section-head__lead">
+        Muitas famílias chegam com perguntas parecidas — com diagnóstico de TEA, TDAH ou outra condição do
+        neurodesenvolvimento, em investigação ou sem diagnóstico.
+      </p>
+    </header>
+
+    <ul class="situations" role="list">
+      {situations.map((s) => (
+        <li class="situation">
+          <span class="situation__icon"><Icon name={s.icon} size={24} /></span>
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ul>
+
+    <p class="families__note">
+      Nenhuma dessas situações, isoladamente, indica um diagnóstico. Elas mostram que vale a pena olhar com
+      atenção para a forma como a criança participa da própria rotina — e é justamente isso que a Terapia
+      Ocupacional investiga.
+    </p>
+  </div>
+</section>

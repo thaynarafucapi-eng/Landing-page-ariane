@@ -1,0 +1,66 @@
+---
+import WhatsAppButton from './WhatsAppButton.astro';
+
+const steps = [
+  {
+    title: 'Contato pelo WhatsApp',
+    text: 'A família envia uma mensagem. Não é preciso ter diagnóstico nem saber qual atendimento escolher.',
+  },
+  {
+    title: 'Compreensão da demanda',
+    text: 'A necessidade da criança é escutada e as modalidades de atendimento são esclarecidas.',
+  },
+  {
+    title: 'Encaminhamento',
+    text: 'A família recebe o encaminhamento correspondente ao serviço mais adequado.',
+  },
+  {
+    title: 'Início do processo',
+    text: 'O processo terapêutico ou de ingresso segue conforme a modalidade escolhida.',
+  },
+];
+
+const entries = [
+  { service: 'Avaliação em Terapia Ocupacional', how: 'Agendamento direto' },
+  { service: 'Terapia Ocupacional Individual', how: 'Começa com um acolhimento inicial' },
+  { service: 'IPD e Pequenos Exploradores', how: 'Formulário de ingresso, enviado pelo WhatsApp após o primeiro contato' },
+  { service: 'Orientação Parental e Familiar', how: 'Integrada ao acompanhamento das famílias já atendidas' },
+];
+---
+
+<section id="como-funciona" class="section how" aria-labelledby="how-title">
+  <div class="container how__grid">
+    <div>
+      <header class="section-head section-head--left">
+        <p class="eyebrow">Como funciona</p>
+        <h2 id="how-title">Do primeiro contato ao início do atendimento.</h2>
+        <p class="section-head__lead">Um caminho simples, para que a família saiba exatamente o que esperar.</p>
+      </header>
+
+      <ol class="steps" role="list">
+        {steps.map((s, i) => (
+          <li class="step">
+            <span class="step__num" aria-hidden="true">{i + 1}</span>
+            <div>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <aside class="entries" aria-labelledby="entries-title">
+      <h3 id="entries-title">Como cada atendimento começa</h3>
+      <dl>
+        {entries.map((e) => (
+          <div>
+            <dt>{e.service}</dt>
+            <dd>{e.how}</dd>
+          </div>
+        ))}
+      </dl>
+      <WhatsAppButton label="Iniciar pelo WhatsApp" placement="como-funciona" variant="primary" />
+    </aside>
+  </div>
+</section>

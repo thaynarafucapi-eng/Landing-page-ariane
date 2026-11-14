@@ -1,0 +1,54 @@
+---
+/**
+ * Espaço de fotografia editável.
+ * - Arquivo definido em src/config/site.ts → `photos.<chave>.file`
+ *   e presente em src/assets/fotos/ → imagem otimizada (AVIF/WebP).
+ * - Sem arquivo:
+ *     • desenvolvimento/prévias (PUBLIC_SHOW_PHOTO_PLACEHOLDERS=true) → marcador identificado;
+ *     • produção → renderiza o conteúdo do slot "fallback" (ou nada).
+ */
+import { Picture } from 'astro:assets';
+import { photos, type PhotoKey } from '../config/site';
+import { getPhoto, photoState } from '../lib/photos';
+
+interface Props {
+  photo: PhotoKey;
+  sizes: string;
+  /** Primeira dobra: carrega com prioridade. */
+  priority?: boolean;
+  class?: string;
+}
+
+const { photo, sizes, priority = false, class: cls } = Astro.props;
+const meta = photos[photo];
+const image = getPhoto(photo);
+const showPlaceholder = photoState(photo) === 'placeholder';
+const hasFallback = Astro.slots.has('fallback');
+---
+
+{
+  image ? (
+    <figure class:list={['photo', cls]} style={`aspect-ratio:${meta.ratio}`}>
+      <Picture
+        src={image}
+        alt={meta.alt}
+        formats={['avif', 'webp']}
+        widths={[480, 720, 960, 1280, 1600].filter((w) => w <= image.width)}
+        sizes={sizes}
+        loading={priority ? 'eager' : 'lazy'}
+        fetchpriority={priority ? 'high' : 'auto'}
+        decoding={priority ? 'sync' : 'async'}
+      />
+    </figure>
+  ) : showPlaceholder ? (
+    <figure class:list={['photo', 'photo--placeholder', cls]} style={`aspect-ratio:${meta.ratio}`} data-pending-photo={photo}>
+      <figcaption>
+        <strong>{meta.label}</strong>
+        <span>Recomendado: {meta.recommended}</span>
+        <span>Arquivo em src/assets/fotos/ · configurar em site.ts → photos.{photo}.file</span>
+      </figcaption>
+    </figure>
+  ) : hasFallback ? (
+    <slot name="fallback" />
+  ) : null
+}

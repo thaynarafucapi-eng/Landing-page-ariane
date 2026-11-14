@@ -1,0 +1,38 @@
+---
+import Photo from './Photo.astro';
+import Icon from './Icon.astro';
+import { location } from '../config/site';
+import { photoState } from '../lib/photos';
+
+const media = (['room', 'space'] as const).filter((k) => photoState(k) !== 'none');
+---
+
+<section id="estrutura" class="section structure" aria-labelledby="structure-title">
+  <div class="container">
+    <div class:list={['structure__intro', media.length === 0 && 'structure__intro--solo']}>
+      <header class="section-head section-head--left">
+        <p class="eyebrow">Estrutura</p>
+        <h2 id="structure-title">Os atendimentos acontecem na {location.clinicName}, em {location.city}.</h2>
+      </header>
+      <div>
+        <p>
+          É lá que acontecem os atendimentos de Ariane — avaliações, acompanhamento individual e grupos
+          terapêuticos.
+        </p>
+        <a class="link-arrow" href="#localizacao">
+          <Icon name="pin" size={18} /> Ver endereço e como chegar
+        </a>
+      </div>
+    </div>
+
+    {
+      media.length > 0 && (
+        <div class:list={['structure__gallery', media.length === 1 && 'structure__gallery--single']}>
+          {media.map((k) => (
+            <Photo photo={k} sizes={media.length === 1 ? '(min-width: 960px) 1100px, 92vw' : '(min-width: 960px) 540px, 92vw'} />
+          ))}
+        </div>
+      )
+    }
+  </div>
+</section>

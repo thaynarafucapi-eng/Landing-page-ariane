@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import { professional } from '../config/site';
+---
+
+<Base title={`Página não encontrada | ${professional.name}`} path="/404/" noindex>
+  <main id="conteudo" class="notfound container">
+    <img src="/marca/logo-ariane-carvalho.svg" alt={`${professional.name} — Terapia Ocupacional`} width="260" height="110" />
+    <h1>Esta página não foi encontrada.</h1>
+    <p>O endereço pode ter mudado. Volte para a página inicial ou fale diretamente pelo WhatsApp.</p>
+    <div class="notfound__actions">
+      <a href="/" class="btn btn--ghost">Ir para a página inicial</a>
+      <WhatsAppButton label="Conversar pelo WhatsApp" placement="404" />
+    </div>
+  </main>
+</Base>

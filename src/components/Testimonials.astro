@@ -1,0 +1,36 @@
+---
+/**
+ * Depoimentos — controlado por `testimonials.enabled` em src/config/site.ts.
+ * Quando desativado (padrão), este componente não gera NENHUM HTML.
+ * Ative somente com relatos reais, autorizados e revisados eticamente.
+ */
+import { testimonials } from '../config/site';
+
+const active = testimonials.enabled && testimonials.items.length > 0;
+---
+
+{
+  active && (
+    <section id="depoimentos" class="section testimonials" aria-labelledby="testimonials-title">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">Famílias</p>
+          <h2 id="testimonials-title">O que dizem as famílias</h2>
+        </header>
+        <ul class="testimonials__list" role="list">
+          {testimonials.items.map((t) => (
+            <li>
+              <blockquote>
+                <p>{t.text}</p>
+                <footer>
+                  <cite>{t.author}</cite>
+                  {t.context && <span>{t.context}</span>}
+                </footer>
+              </blockquote>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}

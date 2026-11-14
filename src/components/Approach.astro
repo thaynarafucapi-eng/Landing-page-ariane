@@ -1,0 +1,61 @@
+---
+import Icon from './Icon.astro';
+
+const pillars = [
+  {
+    icon: 'search',
+    step: '01',
+    title: 'Compreender',
+    text: 'Escuta da família e observação da criança para entender suas características, potencialidades e dificuldades — além do diagnóstico.',
+  },
+  {
+    icon: 'compass',
+    step: '02',
+    title: 'Analisar',
+    text: 'Raciocínio clínico para relacionar as dificuldades funcionais ao contexto: rotina, ambiente, escola e as demandas reais da família.',
+  },
+  {
+    icon: 'target',
+    step: '03',
+    title: 'Planejar',
+    text: 'Definição de objetivos terapêuticos funcionais, ligados ao que a criança precisa e deseja fazer no dia a dia.',
+  },
+  {
+    icon: 'route',
+    step: '04',
+    title: 'Conduzir',
+    text: 'Intervenções significativas para a criança, com acompanhamento da evolução e participação da família no processo.',
+  },
+] as const;
+---
+
+<section id="abordagem" class="section approach" aria-labelledby="approach-title">
+  <div class="approach__tree" aria-hidden="true"></div>
+  <div class="container approach__grid">
+    <header class="approach__intro">
+      <p class="eyebrow eyebrow--light">Abordagem</p>
+      <h2 id="approach-title">Cada criança tem uma forma singular de aprender, participar e se desenvolver.</h2>
+      <p>
+        Dois diagnósticos iguais não descrevem duas crianças iguais. Por isso, o trabalho de Ariane começa por
+        um olhar clínico aprofundado e individualizado: entender quem é a criança, o que ela já faz bem, o que
+        dificulta sua participação e o que é importante para a família.
+      </p>
+      <p>
+        A Terapia Ocupacional observa a <em>funcionalidade</em> — a capacidade de realizar, com autonomia, as
+        atividades que fazem parte da vida da criança: cuidar de si, brincar, aprender e conviver.
+      </p>
+    </header>
+
+    <ol class="pillars" role="list">
+      {pillars.map((p) => (
+        <li class="pillar">
+          <span class="pillar__icon"><Icon name={p.icon} size={22} /></span>
+          <div>
+            <h3><span class="pillar__step">{p.step}</span> {p.title}</h3>
+            <p>{p.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

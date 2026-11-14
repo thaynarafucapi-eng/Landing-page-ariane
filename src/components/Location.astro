@@ -1,0 +1,59 @@
+---
+import Icon from './Icon.astro';
+import { location } from '../config/site';
+---
+
+<section id="localizacao" class="section location" aria-labelledby="location-title">
+  <div class="container location__grid">
+    <div class="location__info">
+      <p class="eyebrow">Localização</p>
+      <h2 id="location-title">Atendimento presencial em {location.city}/{location.state}.</h2>
+      <address class="location__address">
+        <strong>{location.clinicName}</strong>
+        <span>{location.addressLine}</span>
+        <span>{location.city} — {location.stateName}</span>
+      </address>
+      <a
+        class="btn btn--primary"
+        href={location.mapsUrl}
+        target="_blank"
+        rel="noopener"
+        data-track="map"
+        data-placement="localizacao"
+      >
+        <Icon name="pin" size={20} />
+        <span>Como chegar</span>
+        <span class="sr-only">(abre o Google Maps em uma nova aba)</span>
+      </a>
+    </div>
+
+    <div class="location__map" data-map>
+      <div class="location__map-cover">
+        <Icon name="map" size={32} />
+        <p>O mapa é carregado apenas se você quiser, para preservar sua privacidade e a velocidade da página.</p>
+        <button type="button" class="btn btn--ghost" data-map-load data-track="map" data-placement="mapa-incorporado">
+          Ver mapa aqui
+        </button>
+      </div>
+      <template data-map-template>
+        <iframe
+          title={`Mapa: ${location.clinicName}, ${location.city}`}
+          src={location.mapsEmbedUrl}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen></iframe>
+      </template>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelector('[data-map-load]')?.addEventListener('click', () => {
+    const wrap = document.querySelector<HTMLElement>('[data-map]');
+    const tpl = wrap?.querySelector<HTMLTemplateElement>('[data-map-template]');
+    if (!wrap || !tpl) return;
+    wrap.querySelector('.location__map-cover')?.remove();
+    wrap.appendChild(tpl.content.cloneNode(true));
+    wrap.querySelector('iframe')?.focus();
+  });
+</script>

@@ -1,0 +1,61 @@
+---
+import WhatsAppButton from './WhatsAppButton.astro';
+import Photo from './Photo.astro';
+import Icon from './Icon.astro';
+import { professional, location, services } from '../config/site';
+
+const avaliacao = services.find((s) => s.id === 'avaliacao')!;
+---
+
+<section id="inicio" class="hero" aria-labelledby="hero-title">
+  <div class="container hero__grid">
+    <div class="hero__content">
+      <p class="eyebrow">Terapia Ocupacional infantil · {location.city}/{location.state}</p>
+      <h1 id="hero-title" class="hero__title">
+        Um olhar individualizado para o desenvolvimento e a autonomia do seu filho.
+      </h1>
+      <p class="hero__lead">
+        Terapia Ocupacional infantil em {location.city}, com acolhimento, raciocínio clínico e intervenções
+        direcionadas às necessidades de cada criança.
+      </p>
+
+      <div class="hero__actions">
+        <WhatsAppButton
+          label={avaliacao.cta!.label}
+          message={avaliacao.cta!.message}
+          service={avaliacao.trackingKey}
+          placement="hero"
+          size="lg"
+        />
+        <a class="btn btn--ghost btn--lg" href="#atendimentos">
+          <span>Conhecer os atendimentos</span>
+          <Icon name="arrow" size={18} />
+        </a>
+      </div>
+
+      <dl class="hero__facts">
+        <div>
+          <dt>Profissional</dt>
+          <dd>{professional.name}<span>{professional.profession} · {professional.registry}</span></dd>
+        </div>
+        <div>
+          <dt>Atendimento</dt>
+          <dd>Crianças de 2 a 14 anos<span>{location.clinicName} · {location.city}/{location.state}</span></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="hero__media">
+      <Photo photo="hero" sizes="(min-width: 960px) 40vw, 90vw" priority class="hero__photo">
+        <div slot="fallback" class="hero__brand-panel" aria-hidden="true">
+          <span class="hero__brand-tree"></span>
+          <p class="hero__signature">
+            <span>Compreender profundamente.</span>
+            <span>Enxergar possibilidades.</span>
+            <span>Conduzir novos caminhos.</span>
+          </p>
+        </div>
+      </Photo>
+    </div>
+  </div>
+</section>
