@@ -101,8 +101,10 @@ export const business = {
  */
 export const photos = {
   hero: {
-    file: '',
-    alt: 'Ariane Carvalho, terapeuta ocupacional',
+    /* Recorte (sem alteração) de foto enviada pela cliente; 680 × 850 px.
+       Se houver o arquivo original em maior resolução, substitua aqui. */
+    file: 'ariane-sala-to.jpg',
+    alt: 'Ariane Carvalho, terapeuta ocupacional, na sala de Terapia Ocupacional, ao lado de uma estrutura de madeira com rede de escalada',
     label: 'Imagem 1 — Hero: fotografia profissional de Ariane',
     ratio: '4 / 5',
     recommended: '1600 × 2000 px, vertical',

@@ -3,11 +3,23 @@ import WhatsAppButton from './WhatsAppButton.astro';
 import Photo from './Photo.astro';
 import Icon from './Icon.astro';
 import { professional, location, services } from '../config/site';
+import { photoState } from '../lib/photos';
 
 const avaliacao = services.find((s) => s.id === 'avaliacao')!;
+const hasPhoto = photoState('hero') !== 'none';
+
+/** Faixa de credenciais logo abaixo da primeira dobra (apenas dados confirmados). */
+const trust = [
+  { icon: 'award', strong: professional.registry, text: 'Registro profissional' },
+  { icon: 'book', strong: 'Neuropsicologia', text: 'Pós-graduação' },
+  { icon: 'book', strong: 'ABA', text: 'Formação em Análise do Comportamento' },
+  { icon: 'heart', strong: '2 a 14 anos', text: 'Atendimento infantil' },
+  { icon: 'pin', strong: `${location.city}/${location.state}`, text: location.clinicName },
+] as const;
 ---
 
 <section id="inicio" class="hero" aria-labelledby="hero-title">
+  <div class="hero__leaves" aria-hidden="true"></div>
   <div class="container hero__grid">
     <div class="hero__content">
       <p class="eyebrow">Terapia Ocupacional infantil · {location.city}/{location.state}</p>
@@ -32,30 +44,46 @@ const avaliacao = services.find((s) => s.id === 'avaliacao')!;
           <Icon name="arrow" size={18} />
         </a>
       </div>
-
-      <dl class="hero__facts">
-        <div>
-          <dt>Profissional</dt>
-          <dd>{professional.name}<span>{professional.profession} · {professional.registry}</span></dd>
-        </div>
-        <div>
-          <dt>Atendimento</dt>
-          <dd>Crianças de 2 a 14 anos<span>{location.clinicName} · {location.city}/{location.state}</span></dd>
-        </div>
-      </dl>
+      <p class="hero__note">
+        <Icon name="check" size={18} /> Com ou sem diagnóstico · Primeiro contato pelo WhatsApp
+      </p>
     </div>
 
-    <div class="hero__media">
-      <Photo photo="hero" sizes="(min-width: 960px) 40vw, 90vw" priority class="hero__photo">
-        <div slot="fallback" class="hero__brand-panel" aria-hidden="true">
-          <span class="hero__brand-tree"></span>
-          <p class="hero__signature">
-            <span>Compreender profundamente.</span>
-            <span>Enxergar possibilidades.</span>
-            <span>Conduzir novos caminhos.</span>
-          </p>
-        </div>
-      </Photo>
+    <div class:list={['hero__media', hasPhoto && 'hero__media--photo']}>
+      {
+        hasPhoto ? (
+          <div class="hero__frame">
+            <Photo photo="hero" sizes="(min-width: 960px) 420px, 82vw" priority class="hero__photo" />
+            <div class="hero__badge">
+              <img src="/marca/arvore.svg" alt="" width="40" height="53" />
+              <p>
+                <strong>{professional.name}</strong>
+                <span>{professional.profession} · {professional.registry}</span>
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div class="hero__brand-panel" aria-hidden="true">
+            <span class="hero__brand-tree" />
+            <p class="hero__signature">
+              <span>Compreender profundamente.</span>
+              <span>Enxergar possibilidades.</span>
+              <span>Conduzir novos caminhos.</span>
+            </p>
+          </div>
+        )
+      }
     </div>
+  </div>
+
+  <div class="container">
+    <ul class="trust" role="list" aria-label="Credenciais e atendimento">
+      {trust.map((t) => (
+        <li>
+          <Icon name={t.icon} size={20} />
+          <span><strong>{t.strong}</strong>{t.text}</span>
+        </li>
+      ))}
+    </ul>
   </div>
 </section>
