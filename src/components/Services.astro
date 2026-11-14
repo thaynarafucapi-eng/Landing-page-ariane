@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import ServiceCard from './ServiceCard.astro';
 import WhatsAppButton from './WhatsAppButton.astro';
+import Icon from './Icon.astro';
 import { services } from '../config/site';
 import ipdLogo from '../assets/ipd/ipd-logo.png';
 import ipdPersonagens from '../assets/ipd/ipd-personagens.png';
@@ -12,6 +13,14 @@ const avaliacao = get('avaliacao');
 const ipd = get('ipd');
 const exploradores = get('pequenos-exploradores');
 const orientacao = get('orientacao-parental');
+
+/** Guia de entrada: orienta a escolha sem sugerir diagnóstico. */
+const guide = [
+  { when: 'Quero entender o que está acontecendo com meu filho', to: 'Avaliação', target: avaliacao.id },
+  { when: 'Já sei que meu filho precisa de acompanhamento', to: 'Terapia Ocupacional Individual', target: individual.id },
+  { when: 'Atenção, organização e controle dos impulsos me preocupam', to: 'IPD', target: ipd.id },
+  { when: 'Quero que meu filho interaja e brinque com outras crianças', to: 'Pequenos Exploradores', target: exploradores.id },
+];
 ---
 
 <section id="atendimentos" class="section services" aria-labelledby="services-title">
@@ -20,10 +29,25 @@ const orientacao = get('orientacao-parental');
       <p class="eyebrow">Atendimentos</p>
       <h2 id="services-title">Terapia Ocupacional para crianças, em diferentes formatos.</h2>
       <p class="section-head__lead">
-        Cada formato atende a uma necessidade. Se você não sabe por onde começar, tudo bem: no primeiro
-        contato, a demanda é compreendida e a família é orientada para a modalidade mais adequada.
+        Avaliação, acompanhamento individual e grupos terapêuticos: cada formato atende a uma necessidade diferente.
+        Veja qual combina com o momento do seu filho.
       </p>
     </header>
+
+    <nav class="guide" aria-labelledby="guide-title">
+      <h3 id="guide-title" class="guide__title">Por onde começar?</h3>
+      <ul role="list" class="guide__list">
+        {guide.map((g) => (
+          <li>
+            <a href={`#${g.target}`} class="guide__item">
+              <span class="guide__when">{g.when}</span>
+              <span class="guide__to">{g.to} <Icon name="arrow" size={16} /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="guide__note">Na dúvida, comece pelo WhatsApp: a demanda é compreendida e a família é orientada para o formato mais adequado.</p>
+    </nav>
 
     <div class="services__pair">
       <ServiceCard service={avaliacao} icon="clipboard" />

@@ -33,7 +33,7 @@ const hasFallback = Astro.slots.has('fallback');
         src={image}
         alt={meta.alt}
         formats={['avif', 'webp']}
-        widths={[480, 720, 960, 1280, 1600].filter((w) => w <= image.width)}
+        widths={[...new Set([480, 720, 960, 1280, 1600].filter((w) => w < image.width).concat(image.width))]}
         sizes={sizes}
         loading={priority ? 'eager' : 'lazy'}
         fetchpriority={priority ? 'high' : 'auto'}

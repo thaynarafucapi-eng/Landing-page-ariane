@@ -1,0 +1,43 @@
+---
+import Icon from './Icon.astro';
+
+const areas = [
+  { icon: 'shirt', title: 'Autocuidado', text: 'Vestir-se, alimentar-se e cuidar da própria higiene com mais independência.' },
+  { icon: 'blocks', title: 'Brincar', text: 'A principal ocupação da infância — e um caminho para aprender, se relacionar e se regular.' },
+  { icon: 'book', title: 'Escola e aprendizagem', text: 'Organização, uso de materiais e participação nas atividades escolares.' },
+  { icon: 'list', title: 'Rotina e funções executivas', text: 'Planejar, iniciar, sustentar e concluir tarefas; lidar com mudanças.' },
+  { icon: 'heart', title: 'Autorregulação', text: 'Lidar com emoções, estímulos e frustrações de forma mais organizada.' },
+  { icon: 'users', title: 'Convivência', text: 'Interagir, esperar a vez, compartilhar e participar de grupos.' },
+] as const;
+---
+
+<section id="terapia-ocupacional" class="section what" aria-labelledby="what-title">
+  <div class="container what__grid">
+    <div class="what__intro">
+      <p class="eyebrow">O que é Terapia Ocupacional</p>
+      <h2 id="what-title">Terapia Ocupacional é sobre a vida real da criança.</h2>
+      <p class="section-head__lead">
+        O terapeuta ocupacional avalia e intervém nas atividades que fazem parte do dia a dia da criança — as
+        chamadas <em>ocupações</em>. O objetivo é que ela participe dessas atividades com mais autonomia e segurança,
+        em casa, na escola e no brincar.
+      </p>
+      <aside class="what__myth">
+        <p class="what__myth-label">Não é só coordenação motora</p>
+        <p>
+          As habilidades motoras importam, mas a pergunta central da Terapia Ocupacional é outra: o que a criança
+          precisa — e deseja — conseguir fazer no dia a dia, e o que está dificultando isso hoje?
+        </p>
+      </aside>
+    </div>
+
+    <ul class="what__areas" role="list" aria-label="Áreas em que a Terapia Ocupacional atua">
+      {areas.map((a) => (
+        <li>
+          <span class="what__icon"><Icon name={a.icon} size={22} /></span>
+          <h3>{a.title}</h3>
+          <p>{a.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
