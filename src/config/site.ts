@@ -101,9 +101,7 @@ export const business = {
  */
 export const photos = {
   hero: {
-    /* PROVISÓRIA: recorte (sem alteração) do cartaz "Vivência IPD", baixa resolução.
-       Substituir por retrato profissional em alta resolução assim que disponível. */
-    file: 'ariane-provisoria-cartaz-ipd.png',
+    file: '',
     alt: 'Ariane Carvalho, terapeuta ocupacional, sorrindo no consultório',
     label: 'Imagem 1 — Hero: fotografia profissional de Ariane',
     ratio: '4 / 5',
